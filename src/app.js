@@ -22,6 +22,7 @@ var displayCountiresList = function(countries){
   }
 
 }
+
 var onSelect = function(event){
   var requestHelper = require("./request_helper.js");
   event.preventDefault();

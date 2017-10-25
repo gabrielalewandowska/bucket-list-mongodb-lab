@@ -91,6 +91,7 @@ var displayCountiresList = function(countries){
   }
 
 }
+
 var onSelect = function(event){
   var requestHelper = __webpack_require__(1);
   event.preventDefault();
