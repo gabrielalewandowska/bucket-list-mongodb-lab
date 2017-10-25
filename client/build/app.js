@@ -9,6 +9,12 @@ var makeRequest = function() {
   request.send();
 }
 
+var saveCountryToDb = function(){
+  var country = {
+    name: this.value
+  }
+}
+
 var populateCountryDropdown = function(countriesArray){
   console.log("populate country dropdown is called");
   var countryDropdown = document.getElementById("select-country");
@@ -17,7 +23,7 @@ var populateCountryDropdown = function(countriesArray){
     countryOption.textContent = country.name;
     countryDropdown.appendChild(countryOption);
   }
-  // countryDropdown.addEventListener("change", );
+  countryDropdown.addEventListener("change", saveCountryToDb);
 }
 
 window.addEventListener("load", makeRequest);
