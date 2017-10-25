@@ -11,6 +11,10 @@ var makeRequest = function(url, callback) {
 
 var displayCountiresList = function(countries){
   var list = document.getElementById("countries-list");
+  // while ( list.firstChild ) {
+  //   list.removeChild(list.firstChild)
+  // }
+  list.innerHTML = null
   for (var country of countries){
     var li = document.createElement("li");
     li.innerText = country.name;
@@ -18,11 +22,20 @@ var displayCountiresList = function(countries){
   }
 
 }
-// var saveCountryToDb = function(){
-//   var country = {
-//     name: this.value
-//   }
-// }
+var onSelect = function(event){
+  var requestHelper = require("./request_helper.js");
+  event.preventDefault();
+
+  var country = {
+    name: this.value
+  }
+
+
+  requestHelper.postRequest("http://localhost:3000/api/countries", function(result){
+    console.log("result: ", result);
+    displayCountiresList(result);
+  }, country);
+}
 
 var populateCountryDropdown = function(countriesArray){
   console.log("populate country dropdown is called");
@@ -32,7 +45,7 @@ var populateCountryDropdown = function(countriesArray){
     countryOption.textContent = country.name;
     countryDropdown.appendChild(countryOption);
   }
-  // countryDropdown.addEventListener("change", saveCountryToDb);
+  countryDropdown.addEventListener("change", onSelect);
 }
 
 window.addEventListener("load", function(){
