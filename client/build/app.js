@@ -1,19 +1,28 @@
-var makeRequest = function() {
+var makeRequest = function(url, callback) {
   var request = new XMLHttpRequest();
-    request.open( "GET", "https://restcountries.eu/rest/v2/all");
+    request.open( "GET", url);
     request.addEventListener( "load", function() {
-    var countries = JSON.parse(this.responseText);
-    console.log("request is made")
-    populateCountryDropdown(countries);
+      var data = JSON.parse(this.responseText);
+      console.log("request is made")
+      callback(data);
   })
   request.send();
 }
 
-var saveCountryToDb = function(){
-  var country = {
-    name: this.value
+var displayCountiresList = function(countries){
+  var list = document.getElementById("countries-list");
+  for (var country of countries){
+    var li = document.createElement("li");
+    li.innerText = country.name;
+    list.appendChild(li);
   }
+
 }
+// var saveCountryToDb = function(){
+//   var country = {
+//     name: this.value
+//   }
+// }
 
 var populateCountryDropdown = function(countriesArray){
   console.log("populate country dropdown is called");
@@ -23,7 +32,10 @@ var populateCountryDropdown = function(countriesArray){
     countryOption.textContent = country.name;
     countryDropdown.appendChild(countryOption);
   }
-  countryDropdown.addEventListener("change", saveCountryToDb);
+  // countryDropdown.addEventListener("change", saveCountryToDb);
 }
 
-window.addEventListener("load", makeRequest);
+window.addEventListener("load", function(){
+  makeRequest("https://restcountries.eu/rest/v2/all", populateCountryDropdown);
+  makeRequest("http://localhost:3000/api/countries",displayCountiresList);
+});
